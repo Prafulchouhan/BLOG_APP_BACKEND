@@ -1,6 +1,5 @@
 package com.server.blogappserver.controller;
 
-import com.server.blogappserver.entities.Post;
 import com.server.blogappserver.payloads.ApiResponce;
 import com.server.blogappserver.payloads.PostDto;
 import com.server.blogappserver.payloads.PostResponse;
@@ -8,7 +7,6 @@ import com.server.blogappserver.services.FileService;
 import com.server.blogappserver.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.annotation.AccessType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
