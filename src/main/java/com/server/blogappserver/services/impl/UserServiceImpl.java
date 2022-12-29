@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserByEmail(String email) {
-        User user=this.userRepo.findByEmail(email).orElseThrow(()->new ResourceNotFoundException("User","enamil "+email,0));
+        User user=this.userRepo.findByEmail(email).orElseThrow(()->new ResourceNotFoundException("User","enamil     "+email,0));
         return this.UserToUserDto(user);
     }
 

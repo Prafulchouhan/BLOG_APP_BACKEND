@@ -25,4 +25,6 @@ public interface PostService {
     List<PostDto> getPostByUser(Integer userId);
     //seacch post
     List<PostDto> searchPost(String keyword);
+
+    PostDto addTag(Integer post_id,Integer tag_id);
 }

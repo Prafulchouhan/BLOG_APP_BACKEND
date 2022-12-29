@@ -1,8 +1,12 @@
 package com.server.blogappserver.controller;
 
+import com.server.blogappserver.entities.Post;
+import com.server.blogappserver.entities.Tags;
 import com.server.blogappserver.payloads.ApiResponce;
 import com.server.blogappserver.payloads.PostDto;
 import com.server.blogappserver.payloads.PostResponse;
+import com.server.blogappserver.repositories.PostRepo;
+import com.server.blogappserver.repositories.TagsRepo;
 import com.server.blogappserver.services.FileService;
 import com.server.blogappserver.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +27,11 @@ public class PostController {
     private PostService postService;
     @Autowired
     private FileService fileService;
+    @Autowired
+    private TagsRepo tagsRepo;
+    @Autowired
+    private PostRepo postRepo;
+
     @Value("${project.image}")
     private String path;
 
@@ -34,6 +43,14 @@ public class PostController {
     ){
         return new ResponseEntity<>(this.postService
                 .createPost(postDto,userId,categoryId), HttpStatus.CREATED);
+    }
+    @GetMapping("post/{post_id}/tag/{tag_id}")
+    public ResponseEntity<PostDto> addTagToPost(
+            @PathVariable("post_id") Integer post_id,
+            @PathVariable("tag_id") Integer tag_id
+    ){
+        PostDto post=this.postService.addTag(post_id,tag_id);
+        return new ResponseEntity<>(post,HttpStatus.OK);
     }
 
     @GetMapping("user/{id}/posts")

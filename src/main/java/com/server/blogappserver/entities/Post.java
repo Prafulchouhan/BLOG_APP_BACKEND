@@ -45,4 +45,8 @@ public class Post {
     )
     Set<Tags> tags = new HashSet<>();
 
+    public void addTag(Tags tag){
+        tags.add(tag);
+    }
+
 }

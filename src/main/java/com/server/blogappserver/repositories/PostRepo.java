@@ -2,6 +2,7 @@ package com.server.blogappserver.repositories;
 
 import com.server.blogappserver.entities.Category;
 import com.server.blogappserver.entities.Post;
+import com.server.blogappserver.entities.Tags;
 import com.server.blogappserver.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

@@ -3,12 +3,14 @@ package com.server.blogappserver.services.impl;
 import com.fasterxml.jackson.databind.util.ArrayIterator;
 import com.server.blogappserver.entities.Category;
 import com.server.blogappserver.entities.Post;
+import com.server.blogappserver.entities.Tags;
 import com.server.blogappserver.entities.User;
 import com.server.blogappserver.exceptions.ResourceNotFoundException;
 import com.server.blogappserver.payloads.PostDto;
 import com.server.blogappserver.payloads.PostResponse;
 import com.server.blogappserver.repositories.CategoryRepo;
 import com.server.blogappserver.repositories.PostRepo;
+import com.server.blogappserver.repositories.TagsRepo;
 import com.server.blogappserver.repositories.UserRepo;
 import com.server.blogappserver.services.PostService;
 import org.modelmapper.ModelMapper;
@@ -36,6 +38,9 @@ public class PostServiceImpl implements PostService {
     private CategoryRepo categoryRepo;
     @Autowired
     private final ModelMapper modelMapper;
+
+    @Autowired
+    private TagsRepo tagsRepo;
 
     public PostServiceImpl(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
@@ -125,6 +130,19 @@ public class PostServiceImpl implements PostService {
         List<PostDto> postDtoLis=posts.stream().map(post -> this.modelMapper.map(post,PostDto.class)).collect(Collectors.toList());
         return postDtoLis;
     }
+
+    @Override
+    public PostDto addTag(Integer post_id, Integer tag_id) {
+        Post post=this.postRepo.findById(post_id).orElseThrow(()->new ResourceNotFoundException("Post","id",post_id));
+
+        Tags tags=this.tagsRepo.findById(tag_id).orElseThrow(()->new ResourceNotFoundException("Tags","id",tag_id));
+        post.addTag(tags);
+        System.out.println("*******"+post.getId());
+        System.out.println("*******"+tags.getId());
+        System.out.println(post.getTags().getClass());
+        return this.postToPostDto(post);
+    }
+
     public Post postDtoToPost(PostDto postDto){
 //        User user=User.builder().id(userDto.getId()).name(userDto.getName())
 //                .email(userDto.getEmail()).password(userDto.getPassword())
