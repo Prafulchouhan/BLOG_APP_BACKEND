@@ -1,5 +1,6 @@
 package com.server.blogappserver.services;
 
+import com.server.blogappserver.entities.Post;
 import com.server.blogappserver.payloads.PostDto;
 import com.server.blogappserver.payloads.PostResponse;
 

@@ -1,5 +1,6 @@
 package com.server.blogappserver.payloads;
 
+import com.server.blogappserver.entities.Tags;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,4 +21,5 @@ public class PostDto {
     private CategoryDto category;
     private UserDto user;
     private Set<CommentDto> comments=new HashSet<>();
+    private Set<Tags> tags=new HashSet<>();
 }

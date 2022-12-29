@@ -60,6 +60,12 @@ public class UserServiceImpl implements UserService {
         this.userRepo.delete(user);
     }
 
+    @Override
+    public UserDto getUserByEmail(String email) {
+        User user=this.userRepo.findByEmail(email).orElseThrow(()->new ResourceNotFoundException("User","enamil "+email,0));
+        return this.UserToUserDto(user);
+    }
+
     public User UserDtoToUser(UserDto userDto){
 //        User user=User.builder().id(userDto.getId()).name(userDto.getName())
 //                .email(userDto.getEmail()).password(userDto.getPassword())

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,8 +50,9 @@ public class PostController {
     public ResponseEntity<PostResponse> getAllPosts(
             @RequestParam(value = "pageNo",defaultValue = "1",required = false) Integer pageNo,
             @RequestParam(value = "pageSize",defaultValue = "5",required = false) Integer pageSize,
-            @RequestParam(value = "sortBy",defaultValue = "postId",required = false) String sortBy
+            @RequestParam(value = "sortBy",defaultValue = "id",required = false) String sortBy
     ){
+        System.out.println(sortBy);
         PostResponse postResponse=this.postService.getAllPost(pageNo,pageSize,sortBy);
         return new ResponseEntity<>(postResponse,HttpStatus.OK);
     }
@@ -78,15 +80,15 @@ public class PostController {
         return new ResponseEntity<>(this.postService.updatePost(postDto,id),HttpStatus.OK);
     }
 
-    @PostMapping("post/image/upload/{postId}")
-    public ResponseEntity<PostDto> uploadpostImage(
-            @RequestParam("image")MultipartFile image,
-            @PathVariable Integer postId
-            ) throws IOException {
-
-            PostDto postDto=this.postService.getPostById(postId);
-            String fileName=this.fileService.uploadImage(path,image);
-            postDto.setImageName(fileName);
-            return this.updatePost(postId,postDto);
-    }
+//    @PostMapping("post/image/upload/{postId}")
+//    public ResponseEntity<PostDto> uploadpostImage(
+//            @RequestParam("image")MultipartFile image,
+//            @PathVariable Integer postId
+//            ) throws IOException {
+//
+//            PostDto postDto=this.postService.getPostById(postId);
+//            String fileName=this.fileService.uploadImage(path,image);
+//            postDto.setImageName(fileName);
+//            return this.updatePost(postId,postDto);
+//    }
 }

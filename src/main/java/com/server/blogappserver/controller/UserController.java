@@ -1,6 +1,8 @@
 package com.server.blogappserver.controller;
 
+import com.server.blogappserver.exceptions.ResourceNotFoundException;
 import com.server.blogappserver.payloads.ApiResponce;
+import com.server.blogappserver.payloads.LogInDto;
 import com.server.blogappserver.payloads.UserDto;
 import com.server.blogappserver.services.UserService;
 import lombok.Generated;
@@ -18,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 @CacheConfig(cacheNames = "User")
+@CrossOrigin("*")
 public class UserController {
     Logger logger= LoggerFactory.getLogger(UserController.class);
     @Autowired
@@ -44,8 +47,9 @@ public class UserController {
         return userDto;
     }
 
-    @PostMapping("/")
+    @PostMapping("/register")
     public ResponseEntity<UserDto> createUser(@RequestBody  UserDto userDto){
+
         UserDto user=this.userService.createUser(userDto);
         if(userDto!=null){
             logger.info("New user signUp");
@@ -54,6 +58,16 @@ public class UserController {
         }
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<LogInDto> LogInUser(@RequestBody LogInDto logInDto) throws Exception {
+        UserDto userDto=this.userService.getUserByEmail(logInDto.getUsername());
+        if(!userDto.getPassword().equals(logInDto.getPassword())) {
+            throw new ResourceNotFoundException("Pssword",logInDto.getPassword(),null);
+        }
+        return new ResponseEntity<>(logInDto,HttpStatus.OK);
+    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<UserDto> updateUser(@PathVariable Integer id,@RequestBody  UserDto userDto){
@@ -66,5 +80,4 @@ public class UserController {
         this.userService.deleteUser(id);
         return new ResponseEntity<>(new ApiResponce("User deleted",true),HttpStatus.OK);
     }
-
 }
