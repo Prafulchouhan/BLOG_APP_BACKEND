@@ -1,16 +1,19 @@
 package com.server.blogappserver.controller;
 
 import com.server.blogappserver.entities.Post;
+import com.server.blogappserver.entities.Tags;
 import com.server.blogappserver.payloads.ApiResponce;
 import com.server.blogappserver.payloads.PostDto;
 import com.server.blogappserver.payloads.PostResponse;
+import com.server.blogappserver.repositories.PostRepo;
+import com.server.blogappserver.repositories.TagsRepo;
 import com.server.blogappserver.services.FileService;
 import com.server.blogappserver.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.annotation.AccessType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +27,11 @@ public class PostController {
     private PostService postService;
     @Autowired
     private FileService fileService;
+    @Autowired
+    private TagsRepo tagsRepo;
+    @Autowired
+    private PostRepo postRepo;
+
     @Value("${project.image}")
     private String path;
 
@@ -35,6 +43,14 @@ public class PostController {
     ){
         return new ResponseEntity<>(this.postService
                 .createPost(postDto,userId,categoryId), HttpStatus.CREATED);
+    }
+    @GetMapping("post/{post_id}/tag/{tag_id}")
+    public ResponseEntity<PostDto> addTagToPost(
+            @PathVariable("post_id") Integer post_id,
+            @PathVariable("tag_id") Integer tag_id
+    ){
+        PostDto post=this.postService.addTag(post_id,tag_id);
+        return new ResponseEntity<>(post,HttpStatus.OK);
     }
 
     @GetMapping("user/{id}/posts")
@@ -51,8 +67,9 @@ public class PostController {
     public ResponseEntity<PostResponse> getAllPosts(
             @RequestParam(value = "pageNo",defaultValue = "1",required = false) Integer pageNo,
             @RequestParam(value = "pageSize",defaultValue = "5",required = false) Integer pageSize,
-            @RequestParam(value = "sortBy",defaultValue = "postId",required = false) String sortBy
+            @RequestParam(value = "sortBy",defaultValue = "id",required = false) String sortBy
     ){
+        System.out.println(sortBy);
         PostResponse postResponse=this.postService.getAllPost(pageNo,pageSize,sortBy);
         return new ResponseEntity<>(postResponse,HttpStatus.OK);
     }
@@ -80,15 +97,15 @@ public class PostController {
         return new ResponseEntity<>(this.postService.updatePost(postDto,id),HttpStatus.OK);
     }
 
-    @PostMapping("post/image/upload/{postId}")
-    public ResponseEntity<PostDto> uploadpostImage(
-            @RequestParam("image")MultipartFile image,
-            @PathVariable Integer postId
-            ) throws IOException {
-
-            PostDto postDto=this.postService.getPostById(postId);
-            String fileName=this.fileService.uploadImage(path,image);
-            postDto.setImageName(fileName);
-            return this.updatePost(postId,postDto);
-    }
+//    @PostMapping("post/image/upload/{postId}")
+//    public ResponseEntity<PostDto> uploadpostImage(
+//            @RequestParam("image")MultipartFile image,
+//            @PathVariable Integer postId
+//            ) throws IOException {
+//
+//            PostDto postDto=this.postService.getPostById(postId);
+//            String fileName=this.fileService.uploadImage(path,image);
+//            postDto.setImageName(fileName);
+//            return this.updatePost(postId,postDto);
+//    }
 }

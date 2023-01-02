@@ -1,10 +1,8 @@
 package com.server.blogappserver.services;
 
 import com.server.blogappserver.entities.Post;
-import com.server.blogappserver.payloads.CategoryDto;
 import com.server.blogappserver.payloads.PostDto;
 import com.server.blogappserver.payloads.PostResponse;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -18,7 +16,7 @@ public interface PostService {
     //delete
     void deletePost(Integer postId);
     //get all
-    PostResponse getAllPost(Integer pagenNo, Integer pageSize,String sortBy);
+    PostResponse getAllPost(Integer pagenNo, Integer pageSize, String sortBy);
     //get by Id
     PostDto getPostById(Integer postId);
     //get post by category
@@ -27,4 +25,6 @@ public interface PostService {
     List<PostDto> getPostByUser(Integer userId);
     //seacch post
     List<PostDto> searchPost(String keyword);
+
+    PostDto addTag(Integer post_id,Integer tag_id);
 }
