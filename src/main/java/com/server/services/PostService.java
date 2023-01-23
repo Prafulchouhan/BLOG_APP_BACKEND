@@ -2,10 +2,11 @@ package com.server.services;
 
 import com.server.payloads.PostDto;
 import com.server.payloads.PostResponse;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
+@Service
 public interface PostService {
 
     //create
@@ -23,7 +24,7 @@ public interface PostService {
     //get post by User
     List<PostDto> getPostByUser(Integer userId);
     //seacch post
-    List<PostDto> searchPost(String keyword);
+    PostResponse searchPost(String keyword,Integer pageNo, Integer pageSize, String sortBy);
 
     PostDto addTag(Integer post_id,Integer tag_id);
 }

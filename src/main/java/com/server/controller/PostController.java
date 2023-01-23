@@ -3,29 +3,22 @@ package com.server.controller;
 import com.server.payloads.ApiResponce;
 import com.server.payloads.PostDto;
 import com.server.payloads.PostResponse;
-import com.server.repositories.PostRepo;
-import com.server.repositories.TagsRepo;
-import com.server.services.FileService;
 import com.server.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/")
+@CrossOrigin("*")
 public class PostController {
     @Autowired
     private PostService postService;
-    @Autowired
-    private FileService fileService;
-    @Autowired
-    private TagsRepo tagsRepo;
-    @Autowired
-    private PostRepo postRepo;
 
     @Value("${project.image}")
     private String path;
@@ -60,11 +53,10 @@ public class PostController {
 
     @GetMapping("post")
     public ResponseEntity<PostResponse> getAllPosts(
-            @RequestParam(value = "pageNo",defaultValue = "1",required = false) Integer pageNo,
+            @RequestParam(value = "pageNumber",defaultValue = "0",required = false) Integer pageNo,
             @RequestParam(value = "pageSize",defaultValue = "5",required = false) Integer pageSize,
-            @RequestParam(value = "sortBy",defaultValue = "id",required = false) String sortBy
+            @RequestParam(value = "sortBy",defaultValue = "addedDate",required = false) String sortBy
     ){
-        System.out.println(sortBy);
         PostResponse postResponse=this.postService.getAllPost(pageNo,pageSize,sortBy);
         return new ResponseEntity<>(postResponse,HttpStatus.OK);
     }
@@ -75,10 +67,15 @@ public class PostController {
     }
 
     @GetMapping("post/search/{keyword}")
-    public ResponseEntity<List<PostDto>> searchByKeyword(
-            @PathVariable String keyword
+    public ResponseEntity<PostResponse> searchByKeyword(
+            @PathVariable String keyword,
+            @RequestParam(value = "pageNumber",defaultValue = "0",required = false) Integer pageNo,
+            @RequestParam(value = "pageSize",defaultValue = "5",required = false) Integer pageSize,
+            @RequestParam(value = "sortBy",defaultValue = "addedDate",required = false) String sortBy
     ){
-        return new ResponseEntity<>(this.postService.searchPost(keyword),HttpStatus.OK);
+        RestTemplate restTemplate=new RestTemplate();
+        PostResponse responseEntity= restTemplate.getForEntity("http://localhost:9191/api/post/search/"+keyword,PostResponse.class).getBody();
+        return new ResponseEntity<>(responseEntity,HttpStatus.OK);
     }
     @DeleteMapping("post/{id}")
     public ResponseEntity<ApiResponce> deletePost(@PathVariable Integer id){

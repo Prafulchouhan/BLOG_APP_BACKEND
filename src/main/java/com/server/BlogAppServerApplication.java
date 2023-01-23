@@ -20,12 +20,10 @@ public class BlogAppServerApplication implements CommandLineRunner {
 	public static void main(String[] args) {
 		SpringApplication.run(BlogAppServerApplication.class, args);
 	}
-
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println(this.passwordEncoder.encode("xyz"));
+//		System.out.println(this.passwordEncoder.encode("xyz"));
 	}
-
 	@Bean
 	public ModelMapper modelMapper(){
 		return new ModelMapper();

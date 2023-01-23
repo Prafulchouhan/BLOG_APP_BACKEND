@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/")
+@CrossOrigin("*")
 public class CommentController {
     @Autowired
     private CommentService commentService;
-
 
     @PostMapping("post/{postId}/comment")
     public ResponseEntity<CommentDto> createComment(
