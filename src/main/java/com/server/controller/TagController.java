@@ -15,7 +15,7 @@ public class TagController {
     @Autowired
     private TagService tagService;
 
-    @GetMapping("/tags/notnot")
+    @GetMapping("/{tag}")
     public List<PostDto> getPostTags(@PathVariable String tag){
         return this.tagService.getPostByTags(tag);
     }

@@ -1,0 +1,20 @@
+2023-01-20 17:35:43.973 DEBUG 54901 --- [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing POST /api/post/3/comment
+2023-01-20 17:35:43.987 DEBUG 54901 --- [nio-8080-exec-5] s.s.w.c.SecurityContextPersistenceFilter : Set SecurityContextHolder to empty SecurityContext
+2023-01-20 17:35:43.997 DEBUG 54901 --- [nio-8080-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2023-01-20 17:35:44.014 DEBUG 54901 --- [nio-8080-exec-5] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [POST /api/post/3/comment] with attributes [permitAll]
+2023-01-20 17:35:44.014 DEBUG 54901 --- [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured POST /api/post/3/comment
+
+
+
+2023-01-20 17:35:44.369 DEBUG 54901 --- [nio-8080-exec-5] s.s.w.c.SecurityContextPersistenceFilter : Cleared SecurityContextHolder to complete request
+2023-01-20 17:36:09.561 DEBUG 54901 --- [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/post/3/comment
+2023-01-20 17:36:09.563 DEBUG 54901 --- [nio-8080-exec-6] s.s.w.c.SecurityContextPersistenceFilter : Set SecurityContextHolder to empty SecurityContext
+2023-01-20 17:36:09.564 DEBUG 54901 --- [nio-8080-exec-6] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2023-01-20 17:36:09.568 DEBUG 54901 --- [nio-8080-exec-6] o.s.s.w.a.i.FilterSecurityInterceptor    : Failed to authorize filter invocation [OPTIONS /api/post/3/comment] with attributes [authenticated]
+2023-01-20 17:36:09.569 DEBUG 54901 --- [nio-8080-exec-6] o.s.s.w.a.Http403ForbiddenEntryPoint     : Pre-authenticated entry point called. Rejecting access
+2023-01-20 17:36:09.571 DEBUG 54901 --- [nio-8080-exec-6] s.s.w.c.SecurityContextPersistenceFilter : Cleared SecurityContextHolder to complete request
+2023-01-20 17:36:09.576 DEBUG 54901 --- [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing OPTIONS /error
+2023-01-20 17:36:09.577 DEBUG 54901 --- [nio-8080-exec-6] s.s.w.c.SecurityContextPersistenceFilter : Set SecurityContextHolder to empty SecurityContext
+2023-01-20 17:36:09.577 DEBUG 54901 --- [nio-8080-exec-6] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2023-01-20 17:36:09.577 DEBUG 54901 --- [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured OPTIONS /error
+2023-01-20 17:36:09.598 DEBUG 54901 --- [nio-8080-exec-6] s.s.w.c.SecurityContextPersistenceFilter : Cleared SecurityContextHolder to complete request
