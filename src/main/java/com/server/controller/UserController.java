@@ -26,8 +26,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/{id}")
     @Cacheable(key = "#id",value = "User")
@@ -37,7 +35,7 @@ public class UserController {
         if(userDto!=null){
             logger.info("login the user by id {}",id);
         }else {
-            logger.info("there is no user found for User id {}",id);
+            logger.info("there is no user found for User id {}", id);
         }
         System.out.println(new ResponseEntity<>(userDto,HttpStatus.OK).getBody().getId());
 //        return new ResponseEntity<>(userDto,HttpStatus.OK);
@@ -48,7 +46,6 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto createUser(@RequestBody  UserDto userDto){
         UserDto user=this.userService.createUser(userDto);
-        user.setPassword(this.passwordEncoder.encode(user.getPassword()));
         if(userDto!=null){
             logger.info("New user signUp");
         }else {

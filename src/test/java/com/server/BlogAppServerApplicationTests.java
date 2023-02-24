@@ -7,8 +7,4 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 class BlogAppServerApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
-
 }

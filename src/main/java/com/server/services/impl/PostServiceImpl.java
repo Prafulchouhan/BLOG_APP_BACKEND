@@ -1,16 +1,10 @@
 package com.server.services.impl;
 
-import com.server.entities.Category;
-import com.server.entities.Post;
-import com.server.entities.Tags;
-import com.server.entities.User;
+import com.server.entities.*;
 import com.server.exceptions.ResourceNotFoundException;
 import com.server.payloads.PostDto;
 import com.server.payloads.PostResponse;
-import com.server.repositories.CategoryRepo;
-import com.server.repositories.PostRepo;
-import com.server.repositories.TagsRepo;
-import com.server.repositories.UserRepo;
+import com.server.repositories.*;
 import com.server.services.PostService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +15,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,6 +31,9 @@ public class PostServiceImpl implements PostService {
     private CategoryRepo categoryRepo;
     @Autowired
     private final ModelMapper modelMapper;
+
+    @Autowired
+    private CustomConfigRepo configRepo;
 
     @Autowired
     private TagsRepo tagsRepo;
@@ -74,7 +73,16 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostResponse getAllPost(Integer pageNo, Integer pageSize, String sortBy) {
-        Pageable p=PageRequest.of(pageNo,pageSize, Sort.by(sortBy).descending());
+
+        Map<String,String> configMap=new HashMap<>();
+        List<Config> config=configRepo.findAll();
+        System.out.println(config);
+        config.stream().forEach(data->configMap.put(data.getName(),data.getValue()));
+        Sort sort=configMap.get("post_sort_order").equals("ASC")? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+
+        Pageable p=PageRequest.of(pageNo,
+                Integer.parseInt(configMap.get("post_page_size")), sort);
+
         Page<Post> pagePosts=this.postRepo.findAll(p);
         List<Post> posts=pagePosts.getContent();
 

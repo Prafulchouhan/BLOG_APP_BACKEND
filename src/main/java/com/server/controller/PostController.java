@@ -1,8 +1,10 @@
 package com.server.controller;
 
+import com.server.entities.Config;
 import com.server.payloads.ApiResponce;
 import com.server.payloads.PostDto;
 import com.server.payloads.PostResponse;
+import com.server.repositories.CustomConfigRepo;
 import com.server.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/")
@@ -20,8 +25,13 @@ public class PostController {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private CustomConfigRepo configRepo;
+
+
     @Value("${project.image}")
     private String path;
+
 
     @PostMapping("user/{userId}/category/{categoryId}/posts")
     public ResponseEntity<PostDto> createPost(
@@ -60,6 +70,22 @@ public class PostController {
         PostResponse postResponse=this.postService.getAllPost(pageNo,pageSize,sortBy);
         return new ResponseEntity<>(postResponse,HttpStatus.OK);
     }
+
+    @PostMapping("/addConfig")
+    public Config addConfig(
+            @RequestBody Config config
+    ){
+        return this.configRepo.save(config);
+    }
+
+//    @GetMapping("config_post")
+//    public ResponseEntity<PostResponse> getAllPostsUsingConfig(
+//    ){
+//
+//        PostResponse postResponse=this.postService.getAllPost();
+//        return new ResponseEntity<>(postResponse,HttpStatus.OK);
+//    }
+
 
     @GetMapping("post/{id}")
     public ResponseEntity<PostDto> getPostById(@PathVariable Integer id){

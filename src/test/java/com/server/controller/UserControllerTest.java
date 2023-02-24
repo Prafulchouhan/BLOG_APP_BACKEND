@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.server.payloads.ApiResponce;
 import com.server.payloads.UserDto;
+import com.server.repositories.CustomConfigRepo;
 import com.server.services.UserService;
 import com.server.services.impl.CustomUserDetailService;
 import com.server.util.JwtFilter;
@@ -48,6 +49,8 @@ class UserControllerTest {
     private MockMvc mockMvc;
     @MockBean
     private UserService userService;
+    @MockBean
+    private CustomConfigRepo repo;
     @MockBean
     private CustomUserDetailService customUserDetailService;
     @MockBean

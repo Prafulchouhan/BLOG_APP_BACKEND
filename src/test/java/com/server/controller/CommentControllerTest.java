@@ -1,6 +1,7 @@
 package com.server.controller;
 
 import com.server.payloads.CommentDto;
+import com.server.repositories.CustomConfigRepo;
 import com.server.services.CommentService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -55,6 +56,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class CommentControllerTest {
     @Autowired
     private MockMvc mockMvc;
+    @MockBean
+    private CustomConfigRepo repo;
     @MockBean
     private CommentService commentService;
     @MockBean

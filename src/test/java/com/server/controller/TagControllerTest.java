@@ -6,6 +6,7 @@ import com.server.entities.Post;
 import com.server.entities.Tags;
 import com.server.payloads.PostDto;
 import com.server.payloads.UserDto;
+import com.server.repositories.CustomConfigRepo;
 import com.server.services.TagService;
 import com.server.services.impl.CustomUserDetailService;
 import com.server.util.JwtFilter;
@@ -43,6 +44,8 @@ class TagControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+    @MockBean
+    private CustomConfigRepo repo;
     @MockBean
     private TagService tagService;
     @MockBean

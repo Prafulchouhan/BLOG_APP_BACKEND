@@ -17,7 +17,7 @@ public interface PostRepo extends JpaRepository<Post,Integer> {
     List<Post> findByUser(User user);
     List<Post> findByCategory(Category category);
 
-    @Query("select p from post p where p.title like :key")
+    @Query("select p from post p where p.title like :key ")
     Page<Post> searchByKeyword(@Param("key") String keyword, Pageable pageable);
 
     @Query("delete from post p where p.id = :id")
